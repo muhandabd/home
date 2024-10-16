@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اقتراح الأطباق</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .table {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mt-4">اقتراح الأطباق بناءً على المخزون</h1>
+
+        <!-- جدول لعرض الأطباق المقترحة وحالتها -->
+        <table class="table table-bordered table-striped mt-4">
+            <thead class="table-dark">
+                <tr>
+                    <th>اسم الطبق</th>
+                    <th>الحالة</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for suggestion in suggestions %}
+                <tr>
+                    <td>{{ suggestion.dish_name }}</td>
+                    <td>{{ suggestion.status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- زر العودة إلى صفحة المخزون -->
+        <a href="/inventory" class="btn btn-primary mt-4">العودة إلى المخزون</a>
+
+        <!-- جدول آخر لعرض الأطباق وإجراء التعديلات والحذف -->
+        <h2 class="mt-4">إدارة الأطباق</h2>
+        <table class="table">
+            <thead class="table-dark">
+                <tr>
+                    <th>الطبق</th>
+                    <th>الحالة</th>
+                    <th>إجراءات</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for suggestion in suggestions %}
+                <tr>
+                    <td>{{ suggestion.dish_name }}</td>
+                    <td>{{ suggestion.status }}</td>
+                    <td>
+                        <a href="/edit_dish/{{ suggestion.dish_name }}" class="btn btn-warning btn-sm">تعديل</a>
+                        <form action="/delete_dish/{{ suggestion.dish_name }}" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('هل أنت متأكد من حذف هذا الطبق؟');">حذف</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
